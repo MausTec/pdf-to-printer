@@ -14,6 +14,7 @@ export interface PrintOptions {
   side?: string;
   bin?: string;
   paperSize?: string;
+  paperKind?: string;
   silent?: boolean;
   printDialog?: boolean;
   sumatraPdfPath?: string;
@@ -90,6 +91,7 @@ function getPrintSettings(options: PrintOptions): string[] {
     side,
     bin,
     paperSize,
+    paperKind,
     copies,
   } = options;
 
@@ -151,6 +153,10 @@ function getPrintSettings(options: PrintOptions): string[] {
         ", "
       )}`;
     }
+  }
+  
+  if (paperKind) {
+    printSettings.push(`paperkind=${paperKind}`);
   }
 
   if (copies) {
