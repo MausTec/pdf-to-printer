@@ -154,7 +154,7 @@ function getPrintSettings(options: PrintOptions): string[] {
       )}`;
     }
   }
-  
+
   if (paperKind) {
     printSettings.push(`paperkind=${paperKind}`);
   }

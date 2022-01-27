@@ -70,6 +70,7 @@ A function to print a PDF document.
    - `side` (`string`, Optional): Supported names `duplex`, `duplexshort`, `duplexlong` and `simplex`.
    - `bin` (`string`, Optional): Select tray to print to. Number or name.
    - `paperSize` (`string`, Optional): Specifies the paper size. Supported names `A2`, `A3`, `A4`, `A5`, `A6`, `letter`, `legal`, `tabloid`, `statement`.
+   - `paperKind` (`string`, Optional): Specifies a numeric paper size, as defined by the driver. Can be specified in place of `paperSize`, using values returned from `getPaperKinds`.
    - `silent` (`boolean`, Optional): Silences SumatraPDF's error messages.
    - `printDialog` (`boolean`, Optional): displays the Print dialog for all the files indicated on this command line.
    - `copies`(`number`, Optional): Specifies how many copies will be printed.
@@ -112,6 +113,27 @@ const options = {
 };
 
 print("assets/pdf-sample.pdf", options).then(console.log);
+```
+
+Example using driver-specific paper sizes. This will request a list of printers, then use the first printer's first defined paper size.
+
+```javascript
+import { print, getPrinters, getPaperKinds } from "pdf-to-printer";
+
+async function example() {
+  const printers = await getPrinters();
+  // [{ deviceId: "DYMO LabelWriter 4XL", name: "DYMO LabelWriter 4XL"}, ...]
+
+  const paperKinds = await getPaperKinds(printers[0].deviceId);
+  // [{ name: "30252 Address", kind: 177, size: { inches: [3.5, 1.09], mm: [88.9, 27.69] }}, ...]
+
+  const options = {
+    printer: printers[0].name,
+    paperKind: paperKinds[0].kind,
+  };
+
+  return print("assets/pdf-sample.pdf", options);
+}
 ```
 
 ### `.getPrinters() => Promise<Printer[]>`
