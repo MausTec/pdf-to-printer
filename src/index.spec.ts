@@ -11,4 +11,5 @@ test("has `print`, `getDefaultPrinter` and `getPrinters` methods", () => {
   expect(printer.print).toBeDefined();
   expect(printer.getDefaultPrinter).toBeDefined();
   expect(printer.getPrinters).toBeDefined();
+  expect(printer.getPaperKinds).toBeDefined();
 });
